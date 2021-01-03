@@ -1,0 +1,19 @@
+<div class="row justify-content-between" th:fragment="header">
+    <div class="col-xl-2">MeetRoom</div>
+
+    <div class="col-xl-2" sec:authorize="!isAuthenticated()">
+        <a class="col-xl-2" th:href="@{/login}">
+            <span>Log In</span>
+        </a>
+        <a th:href="@{/registration}">
+            <span>Sign In</span>
+        </a>
+    </div>
+
+    <div class="col-xl-2"sec:authorize="isAuthenticated()">
+        <span sec:authentication="name"></span>
+        <a class="col-xl-2"sec:authorize="isAuthenticated()" th:href="@{/logout}">
+            <span>Log Out</span>
+        </a>
+    </div>
+</div>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="../static/css/bootstrap.css" rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+    <link rel="stylesheet" th:href="@{/css/custom.css}">
+</head>
+<body>
+    <div class="container" th:object="${event}">
+
+        <form>
+            <div class="form-row row-cols-1">
+                <div class="form-group col-md-6">
+                    <label for="description">Description of event</label>
+                    <input th:value="*{description}" type="text" class="form-control" id="description" readonly>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="createdBy">Created by</label>
+                    <input type="text" th:value="${customer.login}" class="form-control" id="createdBy" readonly>
+                </div>
+            </div>
+            <div class="form-row row-cols-2">
+                <div class="form-col">
+                    <div class="form-group col-md-6">
+                        <label for="dateOfBegin">Date of begin</label>
+                        <input th:value="*{dateOfBegin}" type="text" class="form-control" id="dateOfBegin" readonly>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="timeOfBegin">Time of begin</label>
+                        <input th:value="*{timeOfBegin}" type="text" class="form-control" id="timeOfBegin" readonly>
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="form-group col-md-6">
+                        <label for="dateOfEnd">Date of end</label>
+                        <input th:value="*{dateOfEnd}" type="text" class="form-control" id="dateOfEnd" readonly>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="timeOfEnd">Time of end</label>
+                        <input th:value="*{timeOfEnd}" type="text" class="form-control" id="timeOfEnd" readonly>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+        <div class="row">
+            <a th:href="@{/deleteEvent(id=${event.getId()})}">
+                <button class="btn btn-danger">Delete</button>
+            </a>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script th:src="@{/js/bootstrap.js}"></script>
+</body>
+</html>

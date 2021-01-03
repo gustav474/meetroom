@@ -1,0 +1,16 @@
+<th:block  th:each="cell : ${day.cells}" th:fragment="cells(day)">
+    <a th:href="@{/event(id=${cell.event.id})}" th:if="${cell.event != null}">
+        <div id="event">
+            <span th:text="${cell.event.timeOfBegin}"></span>
+        </div>
+    </a>
+<!--    <div id="hour" th:unless="${cell.event != null}">-->
+<!--        <span th:text="${cell.hour}"></span>-->
+<!--    </div>-->
+
+    <a th:href="@{/makeEvent(dateOfMeeting=${day.date}, hour=${cell.hour})}" th:unless="${cell.event != null}">
+        <div id="hour">
+            <span th:text="${cell.hour}"></span>
+        </div>
+    </a>
+</th:block>

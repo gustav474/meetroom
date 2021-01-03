@@ -1,0 +1,11 @@
+<div class="container" th:fragment = "footer(weekDTO)">
+    <a th:href="@{/(weekNumber=${weekDTO.weekNumber} - 1)}">
+        <button class="btn btn-primary" >Last week</button>
+    </a>
+    <a th:href="@{/(weekNumber=${weekDTO.currentWeekNumber})}">
+        <button class="btn btn-primary" >Current week</button>
+    </a>
+    <a th:href="@{/(weekNumber=${weekDTO.weekNumber} + 1)}">
+        <button class="btn btn-primary" >Next week</button>
+    </a>
+</div>

@@ -1,0 +1,44 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2
+      author: Sergey Lapshin
+      changes:
+        - createTable:
+            tableName: events
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar(300)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date_of_creation
+                  type: DATE
+              - column:
+                  name: time_of_creation
+                  type: TIME
+              - column:
+                  name: date_of_begin
+                  type: DATE
+              - column:
+                  name: time_of_begin
+                  type: TIME
+              - column:
+                  name: date_of_end
+                  type: DATE
+              - column:
+                  name: time_of_end
+                  type: TIME
+              - column:
+                  name: created_by_user_id
+                  type: BIGINT
+                  constraints:
+                    foreignKeyName: fk_events_users
+                    references: users(id)
