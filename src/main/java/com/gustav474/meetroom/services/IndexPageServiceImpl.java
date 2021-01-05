@@ -5,6 +5,7 @@ import com.gustav474.meetroom.DTO.DayOfWeekDTO;
 import com.gustav474.meetroom.DTO.WeekDTO;
 import com.gustav474.meetroom.entities.Event;
 import com.gustav474.meetroom.repositories.EventRepository;
+import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
@@ -43,45 +44,58 @@ public class IndexPageServiceImpl  implements  IndexPageService{
     }
 
     @Override
-    public WeekDTO getWeek(Integer ... weekNumber) {
-        WeekDTO week = new WeekDTO();
+    public WeekDTO getWeek(LocalDate date, Integer ... weekNumber) {
         Integer _weekNumber;
-        LocalDate dateInRequestedWeek;
         Locale rus = new Locale("ru", "RU");
-        LocalDate dateNow = LocalDate.now();
         WeekFields weekFields = WeekFields.of(rus);
-        Integer сurrentWeekNumber = dateNow.get(weekFields.weekOfWeekBasedYear());
+        Integer сurrentWeekNumber = date.get(weekFields.weekOfWeekBasedYear());
 
         if (weekNumber.length != 0) {
             _weekNumber = weekNumber[0];
 
             if (_weekNumber > сurrentWeekNumber) {
-                dateInRequestedWeek = dateNow.plusWeeks(_weekNumber - сurrentWeekNumber);
-                week.setDaysOfWeek(getWeekByDate(dateInRequestedWeek));
-                week.setWeekNumber(_weekNumber);
-                week.setCurrentWeekNumber(сurrentWeekNumber);
-                return week;
-            } else {
-                dateInRequestedWeek = dateNow.minusWeeks(сurrentWeekNumber - _weekNumber);
-                week.setDaysOfWeek(getWeekByDate(dateInRequestedWeek));
-                week.setWeekNumber(_weekNumber);
-                week.setCurrentWeekNumber(сurrentWeekNumber);
-                return week;
+                return getNextWeek(date, _weekNumber, сurrentWeekNumber);
+            } else if (_weekNumber < сurrentWeekNumber) {
+                return getLastWeek(date, _weekNumber, сurrentWeekNumber);
+            } else if (_weekNumber == сurrentWeekNumber) {
+                return getCurrentWeek(date, сurrentWeekNumber);
             }
-
-        } else {
-            week.setDaysOfWeek(getWeekByDate(dateNow));
-            week.setWeekNumber(сurrentWeekNumber);
-            week.setCurrentWeekNumber(сurrentWeekNumber);
-            return week;
         }
+        return getCurrentWeek(date, сurrentWeekNumber);
     }
+
+    private WeekDTO getNextWeek(LocalDate dateNow, Integer requestedWeekNumber, Integer сurrentWeekNumber) {
+        WeekDTO week = new WeekDTO();
+        LocalDate dateInRequestedWeek = dateNow.plusWeeks(requestedWeekNumber - сurrentWeekNumber);
+        week.setDaysOfWeek(getWeekByDate(dateInRequestedWeek));
+        week.setWeekNumber(requestedWeekNumber);
+        week.setCurrentWeekNumber(сurrentWeekNumber);
+        return week;
+    }
+
+    private WeekDTO getLastWeek(LocalDate dateNow, Integer requestedWeekNumber, Integer сurrentWeekNumber) {
+        WeekDTO week = new WeekDTO();
+        LocalDate dateInRequestedWeek = dateNow.minusWeeks(сurrentWeekNumber - requestedWeekNumber);
+        week.setDaysOfWeek(getWeekByDate(dateInRequestedWeek));
+        week.setWeekNumber(requestedWeekNumber);
+        week.setCurrentWeekNumber(сurrentWeekNumber);
+        return week;
+    }
+
+    private WeekDTO getCurrentWeek(LocalDate dateNow, Integer сurrentWeekNumber) {
+        WeekDTO week = new WeekDTO();
+        week.setDaysOfWeek(getWeekByDate(dateNow));
+        week.setWeekNumber(сurrentWeekNumber);
+        week.setCurrentWeekNumber(сurrentWeekNumber);
+        return week;
+    }
+
 
 //    Filling the day cells with events and hours
     private void fillingCells(DayOfWeekDTO dayOfWeekDTO,
                               List<Event> events,
                               List<CellDTO> cells,
-                              List week,
+                              List<DayOfWeekDTO> week,
                               String dayRU,
                               LocalDate _date) {
         if (events.size() != 0) {
@@ -111,8 +125,7 @@ public class IndexPageServiceImpl  implements  IndexPageService{
         week.add(dayOfWeekDTO);
     }
 
-
-    private void fillingWeek(LocalDate _date, DayOfWeekDTO dayOfWeekDTO, int i, Locale rus, List week) {
+    private void fillingWeek(LocalDate _date, DayOfWeekDTO dayOfWeekDTO, Locale rus, List<DayOfWeekDTO> week) {
 
         java.time.DayOfWeek day = _date.getDayOfWeek();
         String dayRU = day.getDisplayName(TextStyle.FULL, rus);
@@ -133,29 +146,20 @@ public class IndexPageServiceImpl  implements  IndexPageService{
      * @return List of ColumnHeaderDTO
      */
     private List<DayOfWeekDTO> getWeekByDate(LocalDate date) {
-        List week = new ArrayList<DayOfWeekDTO>();
+        List<DayOfWeekDTO> week = new ArrayList();
         Locale rus = new Locale("ru", "RU");
         WeekFields weekFields = WeekFields.of(rus);
+        LocalDate startingDate;
 
         int dayOfWeek = date.get(weekFields.dayOfWeek());
-//        Without sunday
-        if (dayOfWeek == 7) dayOfWeek = 6;
 
-        for (int i = dayOfWeek; i >= 1; i--) {
+        if (dayOfWeek != 1) startingDate = date.minusDays(dayOfWeek - 1);
+        else startingDate = date;
+
+        for (int i = 0; i < 6; i++) {
             DayOfWeekDTO dayOfWeekDTO = new DayOfWeekDTO();
-            LocalDate _date = date.minusDays(i);
-
-            if (_date.get(weekFields.dayOfWeek()) == 7) continue;
-            fillingWeek(_date, dayOfWeekDTO, i, rus, week);
-        }
-
-        for (int i = 0; i <= 7 - dayOfWeek ; i++) {
-            DayOfWeekDTO dayOfWeekDTO = new DayOfWeekDTO();
-            LocalDate _date = date.minusDays(i);
-
-            if (_date.get(weekFields.dayOfWeek()) == 7) continue;
-            fillingWeek(_date, dayOfWeekDTO, i, rus, week);
-
+            LocalDate _date = startingDate.plusDays(i);
+            fillingWeek(_date, dayOfWeekDTO, rus, week);
         }
         return week;
     }

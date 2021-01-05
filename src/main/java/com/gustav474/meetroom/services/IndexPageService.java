@@ -1,6 +1,8 @@
 package com.gustav474.meetroom.services;
 
 import com.gustav474.meetroom.DTO.WeekDTO;
+
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -25,7 +27,7 @@ public interface IndexPageService {
      * @param weekNumber Week number to be displayed
      * @return WeekDTO
      */
-    public WeekDTO getWeek(Integer ...weekNumber);
+    public WeekDTO getWeek(LocalDate date, Integer ...weekNumber);
 
 
 }

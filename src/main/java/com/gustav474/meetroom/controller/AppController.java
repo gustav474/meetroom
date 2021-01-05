@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.*;
 
 /**
@@ -42,15 +43,18 @@ public class AppController {
     @GetMapping
     private String getIndexPage(@RequestParam Optional<String> weekNumber, Model model,
                                        Principal principal) {
-        WeekDTO weekDTO = null;
+        WeekDTO weekDTO;
+        LocalDate dateNow = LocalDate.now();
+
+        LocalDate testDate = LocalDate.of(2021, 1, 10);
 
         List<Integer> hours = indexPage.getHours();
         List<String> hours24 = indexPage.getHours24();
 
         if (weekNumber.isPresent()) {
-            weekDTO = indexPage.getWeek(Integer.valueOf(weekNumber.get()));
+            weekDTO = indexPage.getWeek(testDate, Integer.valueOf(weekNumber.get()));
         } else {
-            weekDTO = indexPage.getWeek();
+            weekDTO = indexPage.getWeek(testDate);
         }
 
         model.addAttribute("eventDTO", new EventDTO());
