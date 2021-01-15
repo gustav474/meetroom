@@ -4,3 +4,22 @@
 .text-center #hour:hover {
     background: #7affff;
 }
+
+#event {
+    /*font-size: 10pt;*/
+    /*border: 1px solid black;*/
+    /*padding: -3px;*/
+}
+
+#hours {
+    /*padding: 1.3px;*/
+}
+
+.busy_hours {
+    background-color: #4e555b;
+}
+
+.not_busy_hours {
+    background-color: white;
+}
+

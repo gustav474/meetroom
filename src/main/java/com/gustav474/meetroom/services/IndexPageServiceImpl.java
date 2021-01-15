@@ -99,25 +99,72 @@ public class IndexPageServiceImpl  implements  IndexPageService{
                               List<DayOfWeekDTO> week,
                               String dayRU,
                               LocalDateTime _date) {
+        System.out.println("_date: " + _date.toLocalDate());
         if (events.size() != 0) {
             for (Integer y = 1; y < 25; y++) {
                 CellDTO cell = new CellDTO();
                 for (Event event : events) {
-                    if (y == event.getDateTimeOfBegin().getHour()) {
-//                        cell.setEvent(event);
+//                    If event begins in current day
+                    if (event.getDateTimeOfBegin().toLocalDate().isEqual(_date.toLocalDate()) &&
+                            y == event.getDateTimeOfBegin().getHour()) {
                         cell.setEventId(event.getId());
                         cell.setEventTimeOfBegin(event.getDateTimeOfBegin().toLocalTime().toString());
+                        cell.setHour(y);
+                        cell.setBusy(true);
+                        break;
+//                    If event filling many hours in same day events
+                    } else if (y > event.getDateTimeOfBegin().getHour() &&
+                            event.getDateTimeOfBegin().toLocalDate().isEqual(_date.toLocalDate()) &&
+                            y < event.getDateTimeOfEnd().getHour()) {
+                        cell.setEventId(event.getId());
+                        cell.setHour(y);
+                        cell.setBusy(true);
+                        break;
+//                    If event filling many hours in day of begins
+                    } else if (y > event.getDateTimeOfBegin().getHour() &&
+                            event.getDateTimeOfEnd().toLocalDate().isAfter(_date.toLocalDate())) {
+                        cell.setEventId(event.getId());
+                        cell.setHour(y);
+                        cell.setBusy(true);
+                        break;
+//                    If event filling many hours in day of ends
+                    } else if (y < event.getDateTimeOfEnd().getHour() &&
+                            event.getDateTimeOfBegin().toLocalDate().isBefore(_date.toLocalDate())) {
+                        cell.setEventId(event.getId());
+                        cell.setHour(y);
+                        cell.setBusy(true);
+                        break;
+//                     If event begins and ends in same day
+                    } else if (event.getDateTimeOfEnd().toLocalDate().isEqual(event.getDateTimeOfBegin().toLocalDate())
+                            && y == event.getDateTimeOfEnd().getHour()) {
+                        cell.setEventId(event.getId());
+                        cell.setEventTimeOfEnd(event.getDateTimeOfEnd().toLocalTime().toString());
+                        cell.setHour(y);
+                        cell.setBusy(true);
+                        break;
+//                     If event ends in current day
+                    } else if (event.getDateTimeOfEnd().toLocalDate().isEqual(_date.toLocalDate())
+                        && y == event.getDateTimeOfEnd().getHour()) {
+                        cell.setEventId(event.getId());
+                        cell.setEventTimeOfEnd(event.getDateTimeOfEnd().toLocalTime().toString());
+                        cell.setHour(y);
+                        cell.setBusy(true);
+                        break;
                     } else {
                         cell.setHour(y);
+                        cell.setBusy(false);
                     }
                 }
+                System.out.println("cell:" + cell);
                 cells.add(cell);
             }
         } else {
             for (Integer y = 1; y < 25; y++) {
                 CellDTO cell = new CellDTO();
                 cell.setHour(y);
+                cell.setBusy(false);
                 cells.add(cell);
+
             }
         }
 
@@ -139,7 +186,7 @@ public class IndexPageServiceImpl  implements  IndexPageService{
     }
 
     private List<Event> getEventsByDateOfBegin(LocalDate dateOfBegin) {
-        List<Event> events = eventRepository.findAllByDateOfBegin(dateOfBegin.atStartOfDay(), dateOfBegin.atStartOfDay().plusHours(24));
+        List<Event> events = eventRepository.findAllByDateOfBeginAndEnd(dateOfBegin.atStartOfDay(), dateOfBegin.atStartOfDay().plusHours(24));
 //        System.out.println("events: " + events);
         return events;
     }

@@ -1,6 +1,5 @@
 package com.gustav474.meetroom.DTO;
 
-import com.gustav474.meetroom.entities.Event;
 import lombok.Data;
 
 /**
@@ -8,8 +7,9 @@ import lombok.Data;
  */
 @Data
 public class CellDTO {
-//    private Event event;
     private Long eventId;
     private String eventTimeOfBegin;
+    private String eventTimeOfEnd;
     private Integer hour;
+    public boolean isBusy;
 }
