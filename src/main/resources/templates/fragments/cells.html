@@ -10,7 +10,7 @@
 
     <a th:href="@{/makeEvent(dateOfMeeting=${day.date}, hour=${cell.hour})}" th:unless="${cell.eventId != null}">
         <div id="hour">
-            <span th:text="${cell.hour}"></span>
+            <span style="visibility: hidden" th:text="${cell.hour}"></span>
         </div>
     </a>
 </th:block>

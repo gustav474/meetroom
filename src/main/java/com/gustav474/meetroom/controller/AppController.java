@@ -77,7 +77,7 @@ public class AppController {
 
     @GetMapping("makeEvent")
     private String makeEvents(@RequestParam String dateOfMeeting, @RequestParam String hour, Model model) {
-        model.addAttribute("eventDTO", new EventFormDTO());
+        model.addAttribute("eventFormDTO", new EventFormDTO());
         model.addAttribute("dateOfBegin", dateOfMeeting);
         model.addAttribute("hour", hour);
 

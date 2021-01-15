@@ -88,7 +88,7 @@ public class EventServiceImpl implements EventService {
         event.setDateTimeOfBegin(LocalDateTime.of(dateOfBegin, timeOfBegin));
 
         Long duration = Long.parseLong(eventFormDTO.getDuration());
-        dateTimeOfEnd = LocalDateTime.of(dateOfBegin, timeOfBegin.plusMinutes(duration));
+        dateTimeOfEnd = LocalDateTime.of(dateOfBegin, timeOfBegin).plusMinutes(duration);
 
         event.setDateTimeOfEnd(dateTimeOfEnd);
         event.setCreatedByUserId(eventFormDTO.getCreatedByUserId());
@@ -103,6 +103,7 @@ public class EventServiceImpl implements EventService {
         eventDTO.setDateOfEnd(event.getDateTimeOfEnd().toLocalDate());
         eventDTO.setTimeOfEnd(event.getDateTimeOfEnd().toLocalTime());
         eventDTO.setDescription(event.getDescription());
+        eventDTO.setEventId(event.getId());
 
         return eventDTO;
     }
