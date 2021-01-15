@@ -1,7 +1,7 @@
 <th:block  th:each="cell : ${day.cells}" th:fragment="cells(day)">
     <a th:href="@{/event(id=${cell.event.id})}" th:if="${cell.event != null}">
         <div id="event">
-            <span th:text="${cell.event.timeOfBegin}"></span>
+            <span th:text="${cell.event.dateTimeOfBegin}"></span>
         </div>
     </a>
 <!--    <div id="hour" th:unless="${cell.event != null}">-->

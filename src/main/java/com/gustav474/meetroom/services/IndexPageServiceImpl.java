@@ -126,18 +126,19 @@ public class IndexPageServiceImpl  implements  IndexPageService{
         week.add(dayOfWeekDTO);
     }
 
-    private void fillingWeek(LocalDateTime _date, DayOfWeekDTO dayOfWeekDTO, Locale rus, List<DayOfWeekDTO> week) {
+    private void fillingWeek(LocalDateTime dateTime, DayOfWeekDTO dayOfWeekDTO, Locale rus, List<DayOfWeekDTO> week) {
 
-        java.time.DayOfWeek day = _date.getDayOfWeek();
+        java.time.DayOfWeek day = dateTime.getDayOfWeek();
         String dayRU = day.getDisplayName(TextStyle.FULL, rus);
-        List<Event> events = getEventsByDateTimeOfBegin(_date);
+        List<Event> events = getEventsByDateOfBegin(dateTime.toLocalDate());
         List<CellDTO> cells = new ArrayList();
 
-        fillingCells(dayOfWeekDTO, events, cells, week, dayRU, _date);
+        fillingCells(dayOfWeekDTO, events, cells, week, dayRU, dateTime);
     }
 
-    private List<Event> getEventsByDateTimeOfBegin(LocalDateTime dateTimeOfBegin) {
-        List<Event> events = eventRepository.findAllByDateTimeOfBegin(dateTimeOfBegin);
+    private List<Event> getEventsByDateOfBegin(LocalDate dateOfBegin) {
+        List<Event> events = eventRepository.findAllByDateOfBegin(dateOfBegin.atStartOfDay(), dateOfBegin.atStartOfDay().plusHours(24));
+        System.out.println("events: " + events);
         return events;
     }
 

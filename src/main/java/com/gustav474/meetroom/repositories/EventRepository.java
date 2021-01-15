@@ -16,31 +16,17 @@ import java.util.List;
  */
 @Repository
 public interface EventRepository extends CrudRepository<Event, Long> {
-    List<Event> findAllByDateTimeOfBegin(LocalDateTime dateTimeOfBegin);
-    Event findEventById(Long id);
+    @Query(value="SELECT * FROM events WHERE ( " +
+            "(date_time_of_begin BETWEEN :dateTimeOfBegin and :dateTimeOfEnd));", nativeQuery = true)
+    List<Event> findAllByDateOfBegin(@Param("dateTimeOfBegin") LocalDateTime dateTimeOfBegin,
+                                     @Param("dateTimeOfEnd") LocalDateTime dateTimeOfEnd);
 
-//    We take all events that intersect with the newly added
-//    @Query(value="SELECT * FROM events WHERE ( " +
-//           "(date_of_begin BETWEEN :dateOfBegin and :dateOfEnd)" +
-//        "and" +
-//            "(time_of_begin BETWEEN :timeOfBegin AND :timeOfEnd)" +
-//        "or" +
-//            "(date_of_end BETWEEN :dateOfBegin and :dateOfEnd)" +
-//        "and" +
-//            "(time_of_end BETWEEN :timeOfBegin AND :timeOfEnd));", nativeQuery = true)
-//    List<Event> findAllCrossedEvents(@Param("dateOfBegin") Date dateOfBegin,
-//                                     @Param("timeOfBegin") Date timeOfBegin,
-//                                     @Param("dateOfEnd") Date dateOfEnd,
-//                                     @Param("timeOfEnd") Date timeOfEnd);
+    Event findEventById(Long id);
 
     @Query(value="SELECT * FROM events WHERE ( " +
             "(date_time_of_begin BETWEEN :dateTimeOfBegin and :dateTimeOfEnd)" +
             "and" +
-//            "(time_of_begin BETWEEN :timeOfBegin AND :timeOfEnd)" +
-//            "or" +
             "(date_time_of_end BETWEEN :dateTimeOfBegin and :dateTimeOfEnd));", nativeQuery = true)
-//            "and" +
-//            "(time_of_end BETWEEN :timeOfBegin AND :timeOfEnd));", nativeQuery = true)
     List<Event> findAllCrossedEvents(@Param("dateTimeOfBegin") LocalDateTime dateTimeOfBegin,
                                      @Param("dateTimeOfEnd") LocalDateTime dateTimeOfEnd);
 }
