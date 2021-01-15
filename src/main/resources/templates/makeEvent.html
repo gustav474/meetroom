@@ -9,7 +9,7 @@
 <body>
 
     <div class="container">
-        <form action="#" th:action="@{/makeEvent}" th:object="${eventDTO}" method="post">
+        <form action="#" th:action="@{/makeEvent}" th:object="${eventFormDTO}" method="post">
             <div class="modal-body">
                 <div class="row">
                     <div class="col">
@@ -39,7 +39,7 @@
                 </div>
                 <div class="form-group">
                     <label for="description">Description</label>
-                    <input type="text" class="form-control" id="description" aria-describedby="emailHelp" placeholder="description" th:field="${eventDTO.description}">
+                    <input type="text" class="form-control" id="description" aria-describedby="emailHelp" placeholder="description" th:field="${eventFormDTO.description}">
                     <small id="emailHelp" class="form-text text-muted">Description of your meeting</small>
                 </div>
             </div>

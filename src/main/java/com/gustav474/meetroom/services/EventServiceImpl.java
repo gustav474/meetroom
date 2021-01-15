@@ -1,6 +1,7 @@
 package com.gustav474.meetroom.services;
 
 import com.gustav474.meetroom.DTO.EventDTO;
+import com.gustav474.meetroom.DTO.EventFormDTO;
 import com.gustav474.meetroom.entities.Event;
 import com.gustav474.meetroom.repositories.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,8 +46,8 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public boolean makeEvents(EventDTO eventDTO) throws CantCreateEventOnPastException, IntersectingEventsException {
-        Event event = convertFromDTO(eventDTO);
+    public boolean makeEvents(EventFormDTO eventFormDTO) throws CantCreateEventOnPastException, IntersectingEventsException {
+        Event event = convertFromFormDTO(eventFormDTO);
 
         if (event.getDateTimeOfBegin().isBefore(LocalDateTime.now())) {
             throw new CantCreateEventOnPastException("Cant create event on past");
@@ -64,19 +65,19 @@ public class EventServiceImpl implements EventService {
         }
     }
 
-    public Event convertFromDTO(EventDTO eventDTO) {
+    public Event convertFromFormDTO(EventFormDTO eventFormDTO) {
         Event event = new Event();
 
         LocalDateTime dateTimeOfEnd;
         LocalDate dateOfBegin;
         LocalTime timeOfBegin;
 
-        event.setDescription(eventDTO.getDescription());
+        event.setDescription(eventFormDTO.getDescription());
         event.setDateTimeOfCreation(LocalDateTime.now());
 
-        String sDateOfBegin = eventDTO.getDateOfBegin();
-        String sHourOfBegin = eventDTO.getHour();
-        String sMinutesOfBegin = eventDTO.getMinutes();
+        String sDateOfBegin = eventFormDTO.getDateOfBegin();
+        String sHourOfBegin = eventFormDTO.getHour();
+        String sMinutesOfBegin = eventFormDTO.getMinutes();
 
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         DateTimeFormatter timerFormatter = DateTimeFormatter.ofPattern("H:mm");
@@ -86,11 +87,24 @@ public class EventServiceImpl implements EventService {
 
         event.setDateTimeOfBegin(LocalDateTime.of(dateOfBegin, timeOfBegin));
 
-        Long duration = Long.parseLong(eventDTO.getDuration());
+        Long duration = Long.parseLong(eventFormDTO.getDuration());
         dateTimeOfEnd = LocalDateTime.of(dateOfBegin, timeOfBegin.plusMinutes(duration));
 
         event.setDateTimeOfEnd(dateTimeOfEnd);
-        event.setCreatedByUserId(eventDTO.getCreatedByUserId());
+        event.setCreatedByUserId(eventFormDTO.getCreatedByUserId());
         return event;
     }
+
+    public EventDTO convertFromEvent(Event event) {
+        EventDTO eventDTO = new EventDTO();
+
+        eventDTO.setDateOfBegin(event.getDateTimeOfBegin().toLocalDate());
+        eventDTO.setTimeOfBegin(event.getDateTimeOfBegin().toLocalTime());
+        eventDTO.setDateOfEnd(event.getDateTimeOfEnd().toLocalDate());
+        eventDTO.setTimeOfEnd(event.getDateTimeOfEnd().toLocalTime());
+        eventDTO.setDescription(event.getDescription());
+
+        return eventDTO;
+    }
+
 }

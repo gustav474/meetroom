@@ -1,6 +1,7 @@
 package com.gustav474.meetroom.services;
 
 import com.gustav474.meetroom.DTO.EventDTO;
+import com.gustav474.meetroom.DTO.EventFormDTO;
 import com.gustav474.meetroom.entities.Event;
 import java.util.List;
 
@@ -17,10 +18,10 @@ public interface EventService {
 
     /**
      * Create event (booking)
-     * @param eventDTO
+     * @param eventFormDTO
      * @return True is success, False if not
      */
-    public boolean makeEvents (EventDTO eventDTO) throws CantCreateEventOnPastException, IntersectingEventsException;
+    public boolean makeEvents (EventFormDTO eventFormDTO) throws CantCreateEventOnPastException, IntersectingEventsException;
 
     /**
      * Return collection with all existing events
@@ -34,4 +35,12 @@ public interface EventService {
      * @return Event
      */
     public Event getEvent(Long id);
+
+    /**
+     * Return eventDTO from event
+     * @param event
+     * @return Event
+     */
+    public EventDTO convertFromEvent(Event event);
+
 }

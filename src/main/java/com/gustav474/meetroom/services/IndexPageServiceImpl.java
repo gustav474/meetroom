@@ -36,7 +36,7 @@ public class IndexPageServiceImpl  implements  IndexPageService{
     public List<String> getHours24() {
         List hours24 = new ArrayList<String>();
         for (Integer i = 1; i < 25; i++) {
-            String hour = null;
+            String hour;
             if (i <= 9)  hour = "0" + i;
             else hour = i.toString();
             hours24.add(hour + ":" + "00");
@@ -104,7 +104,9 @@ public class IndexPageServiceImpl  implements  IndexPageService{
                 CellDTO cell = new CellDTO();
                 for (Event event : events) {
                     if (y == event.getDateTimeOfBegin().getHour()) {
-                        cell.setEvent(event);
+//                        cell.setEvent(event);
+                        cell.setEventId(event.getId());
+                        cell.setEventTimeOfBegin(event.getDateTimeOfBegin().toLocalTime().toString());
                     } else {
                         cell.setHour(y);
                     }
@@ -138,7 +140,7 @@ public class IndexPageServiceImpl  implements  IndexPageService{
 
     private List<Event> getEventsByDateOfBegin(LocalDate dateOfBegin) {
         List<Event> events = eventRepository.findAllByDateOfBegin(dateOfBegin.atStartOfDay(), dateOfBegin.atStartOfDay().plusHours(24));
-        System.out.println("events: " + events);
+//        System.out.println("events: " + events);
         return events;
     }
 

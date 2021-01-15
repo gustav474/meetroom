@@ -7,7 +7,7 @@
     <link rel="stylesheet" th:href="@{/css/custom.css}">
 </head>
 <body>
-    <div class="container" th:object="${event}">
+    <div class="container" th:object="${eventDTO}">
 
         <form>
             <div class="form-row row-cols-1">
@@ -45,7 +45,7 @@
 
         </form>
         <div class="row">
-            <a th:href="@{/deleteEvent(id=${event.getId()})}">
+            <a th:href="@{/deleteEvent(id=*{eventId})}">
                 <button class="btn btn-danger">Delete</button>
             </a>
         </div>

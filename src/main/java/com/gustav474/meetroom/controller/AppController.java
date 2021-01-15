@@ -2,6 +2,7 @@ package com.gustav474.meetroom.controller;
 
 import com.gustav474.meetroom.DTO.CustomerDTO;
 import com.gustav474.meetroom.DTO.EventDTO;
+import com.gustav474.meetroom.DTO.EventFormDTO;
 import com.gustav474.meetroom.DTO.WeekDTO;
 import com.gustav474.meetroom.entities.Customer;
 import com.gustav474.meetroom.entities.Event;
@@ -19,7 +20,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.security.Principal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -56,7 +56,7 @@ public class AppController {
             weekDTO = indexPage.getWeek(dateTimeNow);
         }
 
-        model.addAttribute("eventDTO", new EventDTO());
+        model.addAttribute("eventDTO", new EventFormDTO());
         model.addAttribute("hours", hours);
         model.addAttribute("hours24", hours24);
         model.addAttribute("weekDTO", weekDTO);
@@ -68,15 +68,16 @@ public class AppController {
     private String getEvent(@RequestParam String id, Model model) {
         Event event = eventService.getEvent(Long.valueOf(id));
         Customer customer = customerService.findById(event.getCreatedByUserId());
+        EventDTO eventDTO = eventService.convertFromEvent(event);
 
-        model.addAttribute("event", event);
+        model.addAttribute("eventDTO", eventDTO);
         model.addAttribute("customer", customer);
         return "event";
     }
 
     @GetMapping("makeEvent")
     private String makeEvents(@RequestParam String dateOfMeeting, @RequestParam String hour, Model model) {
-        model.addAttribute("eventDTO", new EventDTO());
+        model.addAttribute("eventDTO", new EventFormDTO());
         model.addAttribute("dateOfBegin", dateOfMeeting);
         model.addAttribute("hour", hour);
 
@@ -84,17 +85,17 @@ public class AppController {
     }
 
     @PostMapping("makeEvent")
-    private String makeEvents(@ModelAttribute @Valid EventDTO eventDTO,
+    private String makeEvents(@ModelAttribute @Valid EventFormDTO eventFormDTO,
                               BindingResult bindingResult, Principal principal, Model model) {
         if (bindingResult.hasErrors()) {
             return "makeEvent";
         }
 
         Long userId = customerService.findByLogin(principal.getName()).getId();
-        eventDTO.setCreatedByUserId(userId);
+        eventFormDTO.setCreatedByUserId(userId);
 
         try {
-            eventService.makeEvents(eventDTO);
+            eventService.makeEvents(eventFormDTO);
             String message = "Created new event successfully";
             model.addAttribute("message", message);
             return "message";

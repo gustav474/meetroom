@@ -8,6 +8,8 @@ import lombok.Data;
  */
 @Data
 public class CellDTO {
-    private Event event;
+//    private Event event;
+    private Long eventId;
+    private String eventTimeOfBegin;
     private Integer hour;
 }
