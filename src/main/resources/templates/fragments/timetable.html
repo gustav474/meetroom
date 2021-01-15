@@ -10,71 +10,83 @@
                 <span th:text="${hour}"></span>
             </div>
         </div>
-        <div class="col text-center">
+        <div class="col text-center" th:each="_day : ${day}">
             <div class="columnHeader">
                 <div id="dayOfWeek">
-                    <b th:text="${day[0].dayOfWeek}"></b>
+                    <b th:text="${_day.dayOfWeek}"></b>
                 </div>
                 <div id="date">
-                    <b th:text="${day[0].date}"></b>
+                    <b th:text="${_day.date}"></b>
                 </div>
             </div>
-            <div th:replace="fragments/cells :: cells(day=${day[0]})"></div>
+            <div th:replace="fragments/cells :: cells(day=${_day})"></div>
         </div>
-        <div class="col text-center">
-            <div class="columnHeader">
-                <div id="dayOfWeek">
-                    <b th:text="${day[1].dayOfWeek}"></b>
-                </div>
-                <div id="date">
-                    <b th:text="${day[1].date}"></b>
-                </div>
-            </div>
-            <div th:replace="fragments/cells :: cells(day=${day[1]})"></div>
-        </div>
-        <div class="col text-center">
-            <div class="columnHeader">
-                <div id="dayOfWeek">
-                    <b th:text="${day[2].dayOfWeek}"></b>
-                </div>
-                <div id="date">
-                    <b th:text="${day[2].date}"></b>
-                </div>
-            </div>
-            <div th:replace="fragments/cells :: cells(day=${day[2]})"></div>
-        </div>
-        <div class="col text-center">
-            <div class="columnHeader">
-                <div id="dayOfWeek">
-                    <b th:text="${day[3].dayOfWeek}"></b>
-                </div>
-                <div id="date">
-                    <b th:text="${day[3].date}"></b>
-                </div>
-            </div>
-            <div th:replace="fragments/cells :: cells(day=${day[3]})"></div>
-        </div>
-        <div class="col text-center">
-            <div class="columnHeader">
-                <div id="dayOfWeek">
-                    <b th:text="${day[4].dayOfWeek}"></b>
-                </div>
-                <div id="date">
-                    <b th:text="${day[4].date}"></b>
-                </div>
-            </div>
-            <div th:replace="fragments/cells :: cells(day=${day[4]})"></div>
-        </div>
-        <div class="col text-center">
-            <div class="columnHeader">
-                <div id="dayOfWeek">
-                    <b th:text="${day[5].dayOfWeek}"></b>
-                </div>
-                <div id="date">
-                    <b th:text="${day[5].date}"></b>
-                </div>
-            </div>
-            <div th:replace="fragments/cells :: cells(day=${day[5]})"></div>
-        </div>
+
+<!--        <div class="col text-center">-->
+<!--            <div class="columnHeader">-->
+<!--                <div id="dayOfWeek">-->
+<!--                    <b th:text="${day[0].dayOfWeek}"></b>-->
+<!--                </div>-->
+<!--                <div id="date">-->
+<!--                    <b th:text="${day[0].date}"></b>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div th:replace="fragments/cells :: cells(day=${day[0]})"></div>-->
+<!--        </div>-->
+<!--        <div class="col text-center">-->
+<!--            <div class="columnHeader">-->
+<!--                <div id="dayOfWeek">-->
+<!--                    <b th:text="${day[1].dayOfWeek}"></b>-->
+<!--                </div>-->
+<!--                <div id="date">-->
+<!--                    <b th:text="${day[1].date}"></b>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div th:replace="fragments/cells :: cells(day=${day[1]})"></div>-->
+<!--        </div>-->
+<!--        <div class="col text-center">-->
+<!--            <div class="columnHeader">-->
+<!--                <div id="dayOfWeek">-->
+<!--                    <b th:text="${day[2].dayOfWeek}"></b>-->
+<!--                </div>-->
+<!--                <div id="date">-->
+<!--                    <b th:text="${day[2].date}"></b>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div th:replace="fragments/cells :: cells(day=${day[2]})"></div>-->
+<!--        </div>-->
+<!--        <div class="col text-center">-->
+<!--            <div class="columnHeader">-->
+<!--                <div id="dayOfWeek">-->
+<!--                    <b th:text="${day[3].dayOfWeek}"></b>-->
+<!--                </div>-->
+<!--                <div id="date">-->
+<!--                    <b th:text="${day[3].date}"></b>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div th:replace="fragments/cells :: cells(day=${day[3]})"></div>-->
+<!--        </div>-->
+<!--        <div class="col text-center">-->
+<!--            <div class="columnHeader">-->
+<!--                <div id="dayOfWeek">-->
+<!--                    <b th:text="${day[4].dayOfWeek}"></b>-->
+<!--                </div>-->
+<!--                <div id="date">-->
+<!--                    <b th:text="${day[4].date}"></b>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div th:replace="fragments/cells :: cells(day=${day[4]})"></div>-->
+<!--        </div>-->
+<!--        <div class="col text-center">-->
+<!--            <div class="columnHeader">-->
+<!--                <div id="dayOfWeek">-->
+<!--                    <b th:text="${day[5].dayOfWeek}"></b>-->
+<!--                </div>-->
+<!--                <div id="date">-->
+<!--                    <b th:text="${day[5].date}"></b>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div th:replace="fragments/cells :: cells(day=${day[5]})"></div>-->
+<!--        </div>-->
     </div>
 </div>

@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -44,17 +45,15 @@ public class AppController {
     private String getIndexPage(@RequestParam Optional<String> weekNumber, Model model,
                                        Principal principal) {
         WeekDTO weekDTO;
-        LocalDate dateNow = LocalDate.now();
-
-        LocalDate testDate = LocalDate.of(2021, 1, 10);
+        LocalDateTime dateTimeNow = LocalDateTime.now();
 
         List<Integer> hours = indexPage.getHours();
         List<String> hours24 = indexPage.getHours24();
 
         if (weekNumber.isPresent()) {
-            weekDTO = indexPage.getWeek(testDate, Integer.valueOf(weekNumber.get()));
+            weekDTO = indexPage.getWeek(dateTimeNow, Integer.valueOf(weekNumber.get()));
         } else {
-            weekDTO = indexPage.getWeek(testDate);
+            weekDTO = indexPage.getWeek(dateTimeNow);
         }
 
         model.addAttribute("eventDTO", new EventDTO());
@@ -86,7 +85,7 @@ public class AppController {
 
     @PostMapping("makeEvent")
     private String makeEvents(@ModelAttribute @Valid EventDTO eventDTO,
-                              BindingResult bindingResult,Principal principal, Model model) {
+                              BindingResult bindingResult, Principal principal, Model model) {
         if (bindingResult.hasErrors()) {
             return "makeEvent";
         }

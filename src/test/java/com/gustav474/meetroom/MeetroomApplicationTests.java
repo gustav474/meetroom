@@ -7,11 +7,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+/**
+ * @author Sergey Lapshin
+ */
 @SpringBootTest
 class MeetroomApplicationTests {
 
@@ -31,7 +35,7 @@ class MeetroomApplicationTests {
 		expected.add("суббота");
 
 		for (int y = 1; y < 31; y++) {
-			weekDTO = indexPageService.getWeek(LocalDate.of(2022, 1, y));
+			weekDTO = indexPageService.getWeek(LocalDateTime.of(2021, 1, y, 0, 0, 0, 0));
 			for (int i = 0; i < 6; i++) {
 				String actual = weekDTO.getDaysOfWeek().get(i).getDayOfWeek();
 				assertThat(actual).isEqualTo(expected.get(i));

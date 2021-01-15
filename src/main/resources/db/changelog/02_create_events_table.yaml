@@ -37,6 +37,15 @@ databaseChangeLog:
                   name: time_of_end
                   type: TIME
               - column:
+                  name: date_time_of_creation
+                  type: TIMESTAMP
+              - column:
+                  name: date_time_of_begin
+                  type: TIMESTAMP
+              - column:
+                  name: date_time_of_end
+                  type: TIMESTAMP
+              - column:
                   name: created_by_user_id
                   type: BIGINT
                   constraints:
