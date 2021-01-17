@@ -17,7 +17,7 @@ import java.util.List;
 @Repository
 public interface EventRepository extends CrudRepository<Event, Long> {
     @Query(value="SELECT * FROM events WHERE ( " +
-            "(date_time_of_begin BETWEEN :dateTimeOfBegin and :dateTimeOfEnd)) OR" +
+            "(date_time_of_begin BETWEEN :dateTimeOfBegin and :dateTimeOfEnd)) OR " +
             "(date_time_of_end BETWEEN :dateTimeOfBegin and :dateTimeOfEnd);", nativeQuery = true)
     List<Event> findAllByDateOfBeginAndEnd(@Param("dateTimeOfBegin") LocalDateTime dateTimeOfBegin,
                                      @Param("dateTimeOfEnd") LocalDateTime dateTimeOfEnd);
@@ -27,7 +27,11 @@ public interface EventRepository extends CrudRepository<Event, Long> {
     @Query(value="SELECT * FROM events WHERE ( " +
             "(date_time_of_begin BETWEEN :dateTimeOfBegin and :dateTimeOfEnd)" +
             "and" +
-            "(date_time_of_end BETWEEN :dateTimeOfBegin and :dateTimeOfEnd));", nativeQuery = true)
+            "(date_time_of_end BETWEEN :dateTimeOfBegin and :dateTimeOfEnd)" +
+            "and" +
+            "(:dateTimeOfBegin BETWEEN date_time_of_begin and date_time_of_end)" +
+            "and" +
+            "(:dateTimeOfEnd BETWEEN date_time_of_begin and date_time_of_end));", nativeQuery = true)
     List<Event> findAllCrossedEvents(@Param("dateTimeOfBegin") LocalDateTime dateTimeOfBegin,
                                      @Param("dateTimeOfEnd") LocalDateTime dateTimeOfEnd);
 }

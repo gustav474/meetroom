@@ -42,16 +42,16 @@ public class AppController {
     private UserDetailsServiceImpl userDetailsService;
 
     @GetMapping
-    private String getIndexPage(@RequestParam Optional<String> weekNumber, Model model,
-                                       Principal principal) {
+    private String getIndexPage(@RequestParam(required = false) String weekNumber,
+                                Model model, Principal principal) {
         WeekDTO weekDTO;
         LocalDateTime dateTimeNow = LocalDateTime.now();
 
         List<Integer> hours = indexPage.getHours();
         List<String> hours24 = indexPage.getHours24();
 
-        if (weekNumber.isPresent()) {
-            weekDTO = indexPage.getWeek(dateTimeNow, Integer.valueOf(weekNumber.get()));
+        if (weekNumber != null) {
+            weekDTO = indexPage.getWeek(dateTimeNow, Integer.valueOf(weekNumber));
         } else {
             weekDTO = indexPage.getWeek(dateTimeNow);
         }

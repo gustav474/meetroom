@@ -54,8 +54,9 @@ public class EventServiceImpl implements EventService {
         }
 
 //        Getting events in the database with intersections
-            List<Event> crosserEvents = eventRepository.findAllCrossedEvents(event.getDateTimeOfBegin(),
-                    event.getDateTimeOfEnd());
+        List<Event> crosserEvents = eventRepository.findAllCrossedEvents(event.getDateTimeOfBegin(),
+                event.getDateTimeOfEnd());
+        System.out.println(crosserEvents);
 
         if (crosserEvents.size() != 0) {
             throw new IntersectingEventsException("Intersecting events");

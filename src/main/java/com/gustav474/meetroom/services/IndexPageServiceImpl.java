@@ -155,7 +155,6 @@ public class IndexPageServiceImpl  implements  IndexPageService{
                         cell.setBusy(false);
                     }
                 }
-                System.out.println("cell:" + cell);
                 cells.add(cell);
             }
         } else {
