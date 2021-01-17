@@ -12,7 +12,7 @@ public interface CustomerService {
      * @param customerDTO
      * @return Customer entity
      */
-    Customer saveCustomer(CustomerDTO customerDTO);
+    Customer saveCustomer(CustomerDTO customerDTO) throws ThisLoginIsAlredyExistException;
 
     /**
      * Find customer by login

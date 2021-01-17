@@ -6,7 +6,6 @@ import com.gustav474.meetroom.entities.Event;
 import com.gustav474.meetroom.repositories.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -18,7 +17,6 @@ import java.util.List;
  */
 @Service
 public class EventServiceImpl implements EventService {
-    static final long ONE_MINUTE_IN_MILLIS = 60000;
 
     @Autowired
     private EventRepository eventRepository;

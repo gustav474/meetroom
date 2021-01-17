@@ -9,6 +9,8 @@ import com.gustav474.meetroom.entities.Event;
 import com.gustav474.meetroom.services.*;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -16,6 +18,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -131,9 +135,18 @@ public class AppController {
     }
 
     @PostMapping("registration")
-    private String signIn(CustomerDTO customerDTO, Model model) {
-        customerService.saveCustomer(customerDTO);
+    private String signIn(HttpServletRequest request, CustomerDTO customerDTO, Model model){
         String message = "Registration has been successfully";
+        try {
+            customerService.saveCustomer(customerDTO);
+            request.login(customerDTO.getLogin(), customerDTO.getPassword());
+        } catch (ServletException e) {
+            e.printStackTrace();
+        } catch (ThisLoginIsAlredyExistException e) {
+            model.addAttribute("message", e.getMessage());
+            return "message";
+        }
+
         model.addAttribute("message", message);
         return "message";
     }

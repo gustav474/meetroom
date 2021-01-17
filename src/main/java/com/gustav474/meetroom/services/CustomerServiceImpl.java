@@ -18,8 +18,11 @@ public class CustomerServiceImpl implements CustomerService{
     private CustomerRepository customerRepository;
 
     @Override
-    public Customer saveCustomer(CustomerDTO customerDTO) {
+    public Customer saveCustomer(CustomerDTO customerDTO) throws ThisLoginIsAlredyExistException{
         Customer customer = convertCustomerDTOToCustomer(customerDTO);
+        if (customerRepository.findByLogin(customer.getLogin()) instanceof Customer) {
+            throw new ThisLoginIsAlredyExistException("This login is alredy exist");
+        }
         Customer savedCustomer = customerRepository.save(customer);
         return savedCustomer;
     }
