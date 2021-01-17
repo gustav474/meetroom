@@ -1,25 +1,22 @@
-.text-center #event:hover {
+.text-center .event:hover {
     background: #d77aff;
 }
-.text-center #hour:hover {
-    background: #7affff;
+
+.event2 div{
+    width: 100%;
+    height: 100%;
+    visibility: hidden;
 }
 
-#event {
-    /*font-size: 10pt;*/
-    /*border: 1px solid black;*/
-    /*padding: -3px;*/
-}
-
-#hours {
-    /*padding: 1.3px;*/
+.event2:hover div {
+    visibility: visible;
+    background-color: #d96262;
 }
 
 .busy_hours {
-    background-color: #d6d8d9;
+    background-color: #c3cace;
 }
 
 .not_busy_hours {
     background-color: white;
 }
-

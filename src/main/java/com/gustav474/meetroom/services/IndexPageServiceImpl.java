@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.time.temporal.WeekFields;
 import java.util.*;
@@ -34,7 +36,7 @@ public class IndexPageServiceImpl  implements  IndexPageService{
     @Override
     public List<String> getHours24() {
         List hours24 = new ArrayList<String>();
-        for (Integer i = 1; i < 25; i++) {
+        for (Integer i = 0; i < 24; i++) {
             String hour;
             if (i <= 9)  hour = "0" + i;
             else hour = i.toString();
@@ -90,7 +92,6 @@ public class IndexPageServiceImpl  implements  IndexPageService{
         return week;
     }
 
-
 //    Filling the day cells with events and hours
     private void fillingCells(DayOfWeekDTO dayOfWeekDTO,
                               List<Event> events,
@@ -98,9 +99,8 @@ public class IndexPageServiceImpl  implements  IndexPageService{
                               List<DayOfWeekDTO> week,
                               String dayRU,
                               LocalDateTime _date) {
-        System.out.println("_date: " + _date.toLocalDate());
         if (events.size() != 0) {
-            for (Integer y = 1; y < 25; y++) {
+            for (Integer y = 0; y < 24; y++) {
                 CellDTO cell = new CellDTO();
                 for (Event event : events) {
 //                    If event begins in current day
@@ -109,6 +109,7 @@ public class IndexPageServiceImpl  implements  IndexPageService{
                         cell.setEventId(event.getId());
                         cell.setEventTimeOfBegin(event.getDateTimeOfBegin().toLocalTime().toString());
                         cell.setHour(y);
+                        cell.setStringHour(LocalTime.of(y, 0).toString());
                         cell.setBusy(true);
                         break;
 //                    If event filling many hours in same day events
@@ -117,6 +118,7 @@ public class IndexPageServiceImpl  implements  IndexPageService{
                             y < event.getDateTimeOfEnd().getHour()) {
                         cell.setEventId(event.getId());
                         cell.setHour(y);
+                        cell.setStringHour(LocalTime.of(y, 0).toString());
                         cell.setBusy(true);
                         break;
 //                    If event filling many hours in day of begins
@@ -124,6 +126,7 @@ public class IndexPageServiceImpl  implements  IndexPageService{
                             event.getDateTimeOfEnd().toLocalDate().isAfter(_date.toLocalDate())) {
                         cell.setEventId(event.getId());
                         cell.setHour(y);
+                        cell.setStringHour(LocalTime.of(y, 0).toString());
                         cell.setBusy(true);
                         break;
 //                    If event filling many hours in day of ends
@@ -131,6 +134,7 @@ public class IndexPageServiceImpl  implements  IndexPageService{
                             event.getDateTimeOfBegin().toLocalDate().isBefore(_date.toLocalDate())) {
                         cell.setEventId(event.getId());
                         cell.setHour(y);
+                        cell.setStringHour(LocalTime.of(y, 0).toString());
                         cell.setBusy(true);
                         break;
 //                     If event begins and ends in same day
@@ -139,6 +143,7 @@ public class IndexPageServiceImpl  implements  IndexPageService{
                         cell.setEventId(event.getId());
                         cell.setEventTimeOfEnd(event.getDateTimeOfEnd().toLocalTime().toString());
                         cell.setHour(y);
+                        cell.setStringHour(LocalTime.of(y, 0).toString());
                         cell.setBusy(true);
                         break;
 //                     If event ends in current day
@@ -147,19 +152,22 @@ public class IndexPageServiceImpl  implements  IndexPageService{
                         cell.setEventId(event.getId());
                         cell.setEventTimeOfEnd(event.getDateTimeOfEnd().toLocalTime().toString());
                         cell.setHour(y);
+                        cell.setStringHour(LocalTime.of(y, 0).toString());
                         cell.setBusy(true);
                         break;
                     } else {
                         cell.setHour(y);
+                        cell.setStringHour(LocalTime.of(y, 0).toString());
                         cell.setBusy(false);
                     }
                 }
                 cells.add(cell);
             }
         } else {
-            for (Integer y = 1; y < 25; y++) {
+            for (Integer y = 0; y < 24; y++) {
                 CellDTO cell = new CellDTO();
                 cell.setHour(y);
+                cell.setStringHour(LocalTime.of(y, 0).toString());
                 cell.setBusy(false);
                 cells.add(cell);
 

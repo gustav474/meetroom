@@ -1,14 +1,14 @@
 <th:block th:each="cell : ${day.cells}" th:fragment="cells(day)" xmlns:th="http://www.w3.org/1999/xhtml">
     <a th:href="@{/event(id=${cell.eventId})}" th:if="${cell.eventId != null}">
-        <div id="event" th:class="${cell.isBusy} ? 'busy_hours' : 'not_busy_hours'">
-            <span style="visibility: hidden" th:text="${cell.hour}"></span>
+        <div class="event" th:class="${cell.isBusy} ? 'busy_hours' : 'not_busy_hours'">
+            <span style="visibility: hidden" th:text="${cell.stringHour}"></span>
             <span th:if="${cell.eventTimeOfBegin != null}" th:text="${cell.eventTimeOfBegin}"></span>
             <span th:if="${cell.eventTimeOfEnd != null}" th:text="${cell.eventTimeOfEnd}"></span>
         </div>
     </a>
     <a th:href="@{/makeEvent(dateOfMeeting=${day.date}, hour=${cell.hour})}" th:unless="${cell.eventId != null}">
-        <div id="event">
-            <span style="visibility: hidden" th:text="${cell.hour}"></span>
+        <div class="event2">
+            <div th:text="${cell.stringHour}"></div>
         </div>
     </a>
 </th:block>

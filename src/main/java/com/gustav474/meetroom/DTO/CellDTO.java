@@ -11,5 +11,6 @@ public class CellDTO {
     private String eventTimeOfBegin;
     private String eventTimeOfEnd;
     private Integer hour;
+    private String stringHour;
     public boolean isBusy;
 }
