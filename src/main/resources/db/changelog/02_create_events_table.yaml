@@ -19,24 +19,6 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: date_of_creation
-                  type: DATE
-              - column:
-                  name: time_of_creation
-                  type: TIME
-              - column:
-                  name: date_of_begin
-                  type: DATE
-              - column:
-                  name: time_of_begin
-                  type: TIME
-              - column:
-                  name: date_of_end
-                  type: DATE
-              - column:
-                  name: time_of_end
-                  type: TIME
-              - column:
                   name: date_time_of_creation
                   type: TIMESTAMP
               - column:

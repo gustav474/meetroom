@@ -23,11 +23,11 @@ public interface EventRepository extends CrudRepository<Event, Long> {
 
     @Query(value="SELECT * FROM events WHERE ( " +
             "(date_time_of_begin BETWEEN :dateTimeOfBegin and :dateTimeOfEnd)" +
-            "and" +
+            "or" +
             "(date_time_of_end BETWEEN :dateTimeOfBegin and :dateTimeOfEnd)" +
-            "and" +
+            "or" +
             "(:dateTimeOfBegin BETWEEN date_time_of_begin and date_time_of_end)" +
-            "and" +
+            "or" +
             "(:dateTimeOfEnd BETWEEN date_time_of_begin and date_time_of_end));", nativeQuery = true)
     List<Event> findAllCrossedEvents(@Param("dateTimeOfBegin") LocalDateTime dateTimeOfBegin,
                                      @Param("dateTimeOfEnd") LocalDateTime dateTimeOfEnd);
